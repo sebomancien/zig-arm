@@ -12,21 +12,17 @@ pub fn build(b: *std.Build) void {
         .preferred_optimize_mode = .ReleaseSmall,
     });
 
-    const exe = b.addExecutable(.{
-        .name = "blink.elf",
-        .root_module = b.createModule(.{
-            .root_source_file = b.path("src/main.zig"),
-            .target = target,
-            .optimize = optimize,
-        }),
+    const mod = b.createModule(.{
+        .root_source_file = b.path("src/main.zig"),
+        .target = target,
+        .optimize = optimize,
+        .strip = true,
+        .single_threaded = true,
     });
+    mod.addAssemblyFile(b.path("startup.s"));
 
-    exe.addAssemblyFile(b.path("startup.s"));
+    const exe = b.addExecutable(.{ .name = "blink.elf", .root_module = mod });
     exe.setLinkerScript(b.path("linker.ld"));
-
-    // Minimize runtime footprint
-    exe.root_module.strip = true;
-    exe.root_module.single_threaded = true;
     exe.link_function_sections = true;
     exe.link_data_sections = true;
     exe.link_gc_sections = true;
