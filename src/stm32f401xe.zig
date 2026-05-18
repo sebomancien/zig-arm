@@ -17,3 +17,4 @@ pub const SYSTICK_BASE: u32 = SCS_BASE + 0x0010;
 
 pub const SYSTICK_CTRL_ENABLE: u32 = 1 << 0;
 pub const SYSTICK_CTRL_TICKINT: u32 = 1 << 1;
+pub const SYSTICK_CTRL_CLKSOURCE: u32 = 1 << 2; // 0 = HCLK/8, 1 = HCLK

@@ -14,5 +14,6 @@ pub fn Init(ticks: u32) void {
     SysTick.LOAD = ticks;
     SysTick.VAL = 0;
 
-    SysTick.CTRL |= reg.SYSTICK_CTRL_ENABLE | reg.SYSTICK_CTRL_TICKINT;
+    // CLKSOURCE not set: SysTick runs on HCLK/8 (2 MHz at default 16 MHz HSI)
+    SysTick.CTRL = reg.SYSTICK_CTRL_ENABLE | reg.SYSTICK_CTRL_TICKINT;
 }

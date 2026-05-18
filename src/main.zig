@@ -3,7 +3,7 @@ const SysTick = @import("systick.zig");
 const GPIO = @import("gpio.zig");
 
 const LED_PORT = GPIO.PORTA;
-const LED_PIN: u8 = 5;
+const LED_PIN: GPIO.Pin = 5;
 
 export fn main() void {
     RCC.EnableGPIOA();

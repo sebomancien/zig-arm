@@ -26,14 +26,11 @@ pub const Mode = enum(u2) {
     Output = 0b01,
     AlternateFunction = 0b10,
     Analog = 0b11,
-
-    const Mask: Mode = .Analog;
 };
 
 pub fn SetMode(port: *volatile Port, pin: Pin, mode: Mode) void {
     const shift: u5 = @as(u5, pin) << 1;
-    port.MODER &= ~(@as(u32, @intFromEnum(Mode.Mask)) << shift);
-    port.MODER |= @as(u32, @intFromEnum(mode)) << shift;
+    port.MODER = (port.MODER & ~(@as(u32, 0b11) << shift)) | (@as(u32, @intFromEnum(mode)) << shift);
 }
 
 pub fn Read(port: *volatile Port, pin: Pin) bool {
@@ -41,11 +38,11 @@ pub fn Read(port: *volatile Port, pin: Pin) bool {
 }
 
 pub fn Set(port: *volatile Port, pin: Pin) void {
-    port.ODR |= @as(u32, 1) << pin;
+    port.BSRR = @as(u32, 1) << pin;
 }
 
 pub fn Clear(port: *volatile Port, pin: Pin) void {
-    port.ODR &= ~(@as(u32, 1) << pin);
+    port.BSRR = @as(u32, 1) << (@as(u5, pin) + 16);
 }
 
 pub fn Toggle(port: *volatile Port, pin: Pin) void {
