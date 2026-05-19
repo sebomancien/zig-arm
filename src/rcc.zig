@@ -1,6 +1,6 @@
 const reg = @import("stm32f401xe.zig");
 
-const RCC_TypeDef = extern struct {
+const RCC_TypeDef = struct {
     CR: u32, // RCC clock control register,                                  Address offset: 0x00
     PLLCFGR: u32, // RCC PLL configuration register,                              Address offset: 0x04
     CFGR: u32, // RCC clock configuration register,                            Address offset: 0x08
