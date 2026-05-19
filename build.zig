@@ -13,13 +13,12 @@ pub fn build(b: *std.Build) void {
     });
 
     const mod = b.createModule(.{
-        .root_source_file = b.path("src/main.zig"),
+        .root_source_file = b.path("src/startup.zig"),
         .target = target,
         .optimize = optimize,
         .strip = true,
         .single_threaded = true,
     });
-    mod.addAssemblyFile(b.path("startup.s"));
 
     const exe = b.addExecutable(.{ .name = "blink.elf", .root_module = mod });
     exe.setLinkerScript(b.path("linker.ld"));
