@@ -13,6 +13,8 @@ const Register = extern struct {
 };
 
 pub const Gpio = struct {
+    pub const Port = enum { porta, portb, portc, portd, porte, porth };
+
     pub const Mode = enum(u2) {
         input = 0b00,
         output = 0b01,
@@ -20,15 +22,11 @@ pub const Gpio = struct {
         analog = 0b11,
     };
 
-    pub const Port = enum { a, b, c, d, e, h };
-
-    pub const Pin = u4;
-
     port: *volatile Register,
-    pin: Pin,
+    pin: u4,
 
-    pub fn init(port: Port, pin: Pin) Gpio {
-        return .{
+    pub fn init(port: Port, pin: u4, mode: Mode) Gpio {
+        const gpio = Gpio{
             .port = switch (port) {
                 .a => @ptrFromInt(reg.GPIOA_BASE),
                 .b => @ptrFromInt(reg.GPIOB_BASE),
@@ -39,6 +37,8 @@ pub const Gpio = struct {
             },
             .pin = pin,
         };
+        gpio.setMode(mode);
+        return gpio;
     }
 
     pub fn setMode(self: Gpio, mode: Mode) void {
@@ -64,5 +64,11 @@ pub const Gpio = struct {
 
     pub fn write(self: Gpio, value: bool) void {
         if (value) self.set() else self.clear();
+    }
+
+    pub fn setAf(self: Gpio, af: u4) void {
+        const idx: u1 = if (self.pin < 8) 0 else 1;
+        const shift: u5 = @as(u5, self.pin % 8) * 4;
+        self.port.AFR[idx] = (self.port.AFR[idx] & ~(@as(u32, 0xF) << shift)) | (@as(u32, af) << shift);
     }
 };

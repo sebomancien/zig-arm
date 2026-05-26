@@ -40,3 +40,15 @@ const RCC: *volatile RCC_TypeDef = @ptrFromInt(reg.RCC_BASE);
 pub fn EnableGPIOA() void {
     RCC.AHB1ENR |= reg.RCC_AHB1ENR_GPIOAEN;
 }
+
+pub fn EnableUSART1() void {
+    RCC.APB2ENR |= reg.RCC_APB2ENR_USART1EN;
+}
+
+pub fn EnableUSART2() void {
+    RCC.APB1ENR |= reg.RCC_APB1ENR_USART2EN;
+}
+
+pub fn EnableUSART6() void {
+    RCC.APB2ENR |= reg.RCC_APB2ENR_USART6EN;
+}
