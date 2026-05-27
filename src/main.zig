@@ -1,4 +1,3 @@
-const RCC = @import("rcc.zig");
 const SysTick = @import("systick.zig");
 const Gpio = @import("gpio.zig").Gpio;
 const Uart = @import("uart.zig").Uart;
@@ -8,9 +7,6 @@ var uart_tx: Gpio = undefined;
 var uart: Uart = undefined;
 
 pub export fn main() void {
-    RCC.EnableGPIOA();
-    RCC.EnableUSART2();
-
     led = Gpio.init(.porta, 5, .output);
     uart_tx = Gpio.init(.porta, 2, .alternateFunction);
     uart_tx.setAf(7);
@@ -19,7 +15,7 @@ pub export fn main() void {
 
     led.clear();
 
-    SysTick.Init(800000);
+    SysTick.Init(800_000);
 
     while (true) {}
 }

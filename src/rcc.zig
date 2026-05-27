@@ -41,6 +41,26 @@ pub fn EnableGPIOA() void {
     RCC.AHB1ENR |= reg.RCC_AHB1ENR_GPIOAEN;
 }
 
+pub fn EnableGPIOB() void {
+    RCC.AHB1ENR |= reg.RCC_AHB1ENR_GPIOBEN;
+}
+
+pub fn EnableGPIOC() void {
+    RCC.AHB1ENR |= reg.RCC_AHB1ENR_GPIOCEN;
+}
+
+pub fn EnableGPIOD() void {
+    RCC.AHB1ENR |= reg.RCC_AHB1ENR_GPIODEN;
+}
+
+pub fn EnableGPIOE() void {
+    RCC.AHB1ENR |= reg.RCC_AHB1ENR_GPIOEEN;
+}
+
+pub fn EnableGPIOH() void {
+    RCC.AHB1ENR |= reg.RCC_AHB1ENR_GPIOHEN;
+}
+
 pub fn EnableUSART1() void {
     RCC.APB2ENR |= reg.RCC_APB2ENR_USART1EN;
 }

@@ -17,6 +17,11 @@ pub const USART2_BASE: u32 = APB1PERIPH_BASE + 0x4400;
 pub const USART6_BASE: u32 = APB2PERIPH_BASE + 0x1400;
 
 pub const RCC_AHB1ENR_GPIOAEN: u32 = 1 << 0;
+pub const RCC_AHB1ENR_GPIOBEN: u32 = 1 << 1;
+pub const RCC_AHB1ENR_GPIOCEN: u32 = 1 << 2;
+pub const RCC_AHB1ENR_GPIODEN: u32 = 1 << 3;
+pub const RCC_AHB1ENR_GPIOEEN: u32 = 1 << 4;
+pub const RCC_AHB1ENR_GPIOHEN: u32 = 1 << 7;
 pub const RCC_APB1ENR_USART2EN: u32 = 1 << 17;
 pub const RCC_APB2ENR_USART1EN: u32 = 1 << 4;
 pub const RCC_APB2ENR_USART6EN: u32 = 1 << 5;

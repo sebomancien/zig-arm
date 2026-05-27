@@ -1,4 +1,5 @@
-const reg = @import("stm32f401xe.zig");
+const MMIO = @import("stm32f401xe.zig");
+const RCC = @import("rcc.zig");
 
 const Register = extern struct {
     MODER: u32,
@@ -28,12 +29,30 @@ pub const Gpio = struct {
     pub fn init(port: Port, pin: u4, mode: Mode) Gpio {
         const gpio = Gpio{
             .port = switch (port) {
-                .porta => @ptrFromInt(reg.GPIOA_BASE),
-                .portb => @ptrFromInt(reg.GPIOB_BASE),
-                .portc => @ptrFromInt(reg.GPIOC_BASE),
-                .portd => @ptrFromInt(reg.GPIOD_BASE),
-                .porte => @ptrFromInt(reg.GPIOE_BASE),
-                .porth => @ptrFromInt(reg.GPIOH_BASE),
+                .porta => blk: {
+                    RCC.EnableGPIOA();
+                    break :blk @ptrFromInt(MMIO.GPIOA_BASE);
+                },
+                .portb => blk: {
+                    RCC.EnableGPIOB();
+                    break :blk @ptrFromInt(MMIO.GPIOB_BASE);
+                },
+                .portc => blk: {
+                    RCC.EnableGPIOC();
+                    break :blk @ptrFromInt(MMIO.GPIOC_BASE);
+                },
+                .portd => blk: {
+                    RCC.EnableGPIOD();
+                    break :blk @ptrFromInt(MMIO.GPIOD_BASE);
+                },
+                .porte => blk: {
+                    RCC.EnableGPIOE();
+                    break :blk @ptrFromInt(MMIO.GPIOE_BASE);
+                },
+                .porth => blk: {
+                    RCC.EnableGPIOH();
+                    break :blk @ptrFromInt(MMIO.GPIOH_BASE);
+                },
             },
             .pin = pin,
         };

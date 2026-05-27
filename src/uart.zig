@@ -1,4 +1,5 @@
-const reg = @import("stm32f401xe.zig");
+const MMIO = @import("stm32f401xe.zig");
+const RCC = @import("rcc.zig");
 const register = @import("register.zig");
 
 pub const Access = register.Access;
@@ -95,9 +96,18 @@ pub const Uart = struct {
     pub fn init(instance: Instance, baudrate: u32, pclk_hz: u32) Uart {
         const uart = Uart{
             .instance = switch (instance) {
-                .usart1 => @ptrFromInt(reg.USART1_BASE),
-                .usart2 => @ptrFromInt(reg.USART2_BASE),
-                .usart6 => @ptrFromInt(reg.USART6_BASE),
+                .usart1 => blk: {
+                    RCC.EnableUSART1();
+                    break :blk @ptrFromInt(MMIO.USART1_BASE);
+                },
+                .usart2 => blk: {
+                    RCC.EnableUSART2();
+                    break :blk @ptrFromInt(MMIO.USART2_BASE);
+                },
+                .usart6 => blk: {
+                    RCC.EnableUSART6();
+                    break :blk @ptrFromInt(MMIO.USART6_BASE);
+                },
             },
         };
         uart.instance.CR1.write(0);
