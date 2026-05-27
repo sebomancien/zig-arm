@@ -28,12 +28,12 @@ pub const Gpio = struct {
     pub fn init(port: Port, pin: u4, mode: Mode) Gpio {
         const gpio = Gpio{
             .port = switch (port) {
-                .a => @ptrFromInt(reg.GPIOA_BASE),
-                .b => @ptrFromInt(reg.GPIOB_BASE),
-                .c => @ptrFromInt(reg.GPIOC_BASE),
-                .d => @ptrFromInt(reg.GPIOD_BASE),
-                .e => @ptrFromInt(reg.GPIOE_BASE),
-                .h => @ptrFromInt(reg.GPIOH_BASE),
+                .porta => @ptrFromInt(reg.GPIOA_BASE),
+                .portb => @ptrFromInt(reg.GPIOB_BASE),
+                .portc => @ptrFromInt(reg.GPIOC_BASE),
+                .portd => @ptrFromInt(reg.GPIOD_BASE),
+                .porte => @ptrFromInt(reg.GPIOE_BASE),
+                .porth => @ptrFromInt(reg.GPIOH_BASE),
             },
             .pin = pin,
         };
